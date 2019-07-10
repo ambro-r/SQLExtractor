@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<extracts quotechar="`" driverclass="com.mysql.jdbc.Driver">
+	<job name="Test Table List" enabled="true">
+		<connection url="jdbc:mysql://127.0.0.1:3306/testdb?useSSL=false" schema="testdb"  />
+		<fileoutputs>
+			<fileouput environment="PROD" type="tablelist" enabled="true" directory="/testdb/output" />
+		</fileoutputs>
+	</job>
+	<job name="Test Table Structure" enabled="true">
+		<connection url="jdbc:mysql://127.0.0.1:3306/testdb?useSSL=false" schema="testdb"/>
+		<fileoutputs>
+			<fileouput environment="PROD" type="structure" enabled="true" directory="/testdb/output" />
+		</fileoutputs>
+	</job>
+	<job name="Test Table Setup" enabled="true">
+		<connection url="jdbc:mysql://127.0.0.1:3306/testdb?useSSL=false" schema="testdb"/>
+		<datadumps>
+			<dump table="lookup_*" />
+			<dump table="contacts">
+				<fabricate column="email_address" type="contact" pattern="email"/>
+				<fabricate column="telephone_number" type="number" pattern="0#########"/>
+				<fabricate column="full_name" type="contact" pattern="firstname lastname" />
+			</dump>
+		</datadumps>
+		<fileoutputs>
+			<fileouput environment="DEV" type="full" enabled="true" directory="/testdb/output">
+				<append file="/testdb/appends/DEV_SYSTEM_USERS.sql" />
+			</fileouput>
+			<fileouput environment="INTEGRATION" type="full" enabled="true" directory="/testdb/output">
+				<append file="/testdb/appends/INTEGRATION_SYSTEM_USERS.sql" />
+			</fileouput>
+			<fileouput environment="MIS" type="data" enabled="true" directory="/testdb/output" />
+		</fileoutputs>
+	</job>
+</extracts> 
