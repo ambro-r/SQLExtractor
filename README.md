@@ -6,8 +6,9 @@ A tool to assist with the generation of SQL scripts to align databases across va
 
 The following functions are supported:
 
-* Generation of a list of tables that exist within the specified database
-* ...
+* Generation of a list of tables that exist within the specified database.
+* Export of the table structure, including foreign key relationships (constraints). 
+* Export (and masking) of data contained within tables.
 
 ## Running
 
@@ -65,7 +66,63 @@ This tag simply describes the connection **url** to the database. The **schema**
 ```
 #### \<datadumps\>
 
+Occasionally there may be a need to also extract data contained within specific tables in the database. This can be done by specifying the **table** to be extracted in the  **\<datadumps>** tag. If the table(s) follow a naming convention (i.e. *lookup_*), then a wildcard can be used. 
+
+```xml
+<datadumps>
+    <dump table="customer" />
+    <dump table="lookup_*" />
+    <dump table="contacts">
+	    <fabricate ... />
+	</dump>
+</datadumps> 
+```
+
+If sensitive data needs to be masked (i.e. a customers contact details), then this can be done through the use of the **\<fabrciate>** tag.
+
+```xml
+    <fabricate column="email_address" type="contact" pattern="email"/>
+    <fabricate column="telephone_number" type="number" pattern="0#########"/>
+    <fabricate column="full_name" type="contact" pattern="firstname lastname" />
+```
+The following **type** and **pattern** are supported:
+
+type | pattern
+------------ | -------------
+contact | email; firstname; lastname
+text | sentence (20 words); paragraph
+number | An alphanumeric pattern (i.e 0##AB will substitue "#" with a number, i.e. 023AB).
+
 #### \<fileoutputs\>
+
+Defines what needs to be written to file. 
+
+```xml
+    <fileouput environment="MIS" type="data" enabled="true" directory="/testdb/output" />
+    <fileouput environment="INTEGRATION" type="full" enabled="true" directory="/testdb/output">
+        <prepend ... />
+        <append ... />
+        <append ... />
+    </fileouput>
+```
+
+* **environment**: A label used to identify the file out and is used in file naming. 
+* **type**: This attribute specifies what is being outputted to the file, the following are supported:
+
+   Type | Extract | Prepend / Append
+   ------------ | ------------- | -------------
+    **tablelist** | A list of tables in the database. | No
+    **structure** | Table structure only (no data). | No
+    **data** | Data, as specified in **\<datadumps>**.| Yes
+    **full** | Structure, followed by the data. | Yes
+* **enabled**: As a single job may have multiple file outputs, this enables / disables this specific file out. 
+* **directory**: The output directory of the file (appended to the base directory supplied as program arguments).
+
+If there is a need to ensure at a certain script (i.e an insert script that creates a standard set of users for the environment; or a table drop script) is always include, these can be included in either an **\<append>** or **\<prepend>** tag, which will append or prepend the scripts in the order they are specified. 
+```xml
+    <prened file="/testdb/prends/INTEGRATION_DROP_SCRIPT.sql" />
+    <append file="/testdb/appends/INTEGRATION_SYSTEM_USERS.sql" />
+```
 
 #### \<databaseoutputs\>
 
