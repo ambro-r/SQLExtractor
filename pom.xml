@@ -10,8 +10,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <org-slf4j-version>1.7.21</org-slf4j-version>
-        <log4j-verison>1.2.17</log4j-verison>
+        <log4j.slf4j.impl.version>2.9.0</log4j.slf4j.impl.version>
         <org.apache.poi-version>3.15</org.apache.poi-version>
         <org.apache.commons.commons-lang3>3.6</org.apache.commons.commons-lang3>
         <me.tongfei-version>0.5.5</me.tongfei-version>
@@ -26,33 +25,18 @@
             <artifactId>commons-lang3</artifactId>
             <version>${org.apache.commons.commons-lang3}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${org-slf4j-version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${org-slf4j-version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j-verison}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.slf4j.impl.version}</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
