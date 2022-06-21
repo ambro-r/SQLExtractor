@@ -15,7 +15,7 @@
         <org.apache.commons.commons-lang3>3.6</org.apache.commons.commons-lang3>
         <me.tongfei-version>0.5.5</me.tongfei-version>
         <jaxb-api-version>2.1</jaxb-api-version>
-        <mysql-connector-java-version>5.1.46</mysql-connector-java-version>
+        <mysql-connector-java-version>8.0.28</mysql-connector-java-version>
     </properties>
 
     <dependencies>
